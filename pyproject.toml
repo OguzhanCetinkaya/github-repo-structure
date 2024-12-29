@@ -1,0 +1,7 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+
+
+pypi-AgEIcHlwaS5vcmcCJDY0MWY4NTdjLTZjNTktNGEyZC1hMGNlLTM4YWVjOTNkMzUzMAACKlszLCI0YTFlMDZjNS1hYmFkLTRhYzItYTc1Yi0zYTM4NDk5Zjk3Y2MiXQAABiCcciAqvvg7Q6t4hnNw8Sv4Sxriupt4azr1lFt6ylBRwQ
