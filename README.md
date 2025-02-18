@@ -147,12 +147,6 @@ Contributions are welcome! Some areas for potential improvement:
 
 ## License
 
-[Add your chosen license here]
-
----
-
-## License
-
 This project is open-source. See the [LICENSE](vscode-file://vscode-app/private/var/folders/d_/1hbc6cs172n3vqy5vm8_jjcm0000gn/T/AppTranslocation/565C53E6-A178-4D77-8626-F09590BD7FD3/d/Visual%20Studio%20Code.app/Contents/Resources/app/out/vs/code/electron-sandbox/workbench/workbench.html) file for details.
 
 ---
