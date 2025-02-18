@@ -6,8 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setup(
     name="github-repo-structure",
     version="0.1.0",
-    packages=find_packages(where="github-repo-structure"),
-    package_dir={"": "github-repo-structure"},
+    packages=find_packages(),
     install_requires=[
         "GitPython>=3.1.0",
         "pathspec>=0.9.0",
