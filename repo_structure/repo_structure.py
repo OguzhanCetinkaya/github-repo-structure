@@ -154,15 +154,30 @@ def _get_pathspec(repo_path):
     Reads .gitignore (if present) from the root of `repo_path` and returns a
     compiled pathspec object. If no .gitignore is found, returns None.
     """
-    gitignore_file = repo_path / ".gitignore"
-    if not gitignore_file.is_file():
+    gitignore_patterns = []
+    root_gitignore = repo_path / ".gitignore"
+    if root_gitignore.is_file():
+        with root_gitignore.open("r") as f:
+            gitignore_patterns.extend(f.readlines())
+            
+    for path in repo_path.rglob(".gitignore"):
+        if path != root_gitignore:
+            with path.open("r") as f:
+                relative_path = path.parent.relative_to(repo_path)
+                patterns = f.readlines()
+                for pattern in patterns:
+                    pattern = pattern.strip()
+                    if pattern and not pattern.startswith('#'):
+                        if not pattern.startswith('/'):
+                            gitignore_patterns.append(f"/{relative_path}/{pattern}\n")
+                        else:
+                            gitignore_patterns.append(f"/{relative_path}{pattern}\n")
+
+    if not gitignore_patterns:
         return None
 
-    with gitignore_file.open("r") as f:
-        gitignore_lines = f.readlines()
-
     # Use Git's wildcard matching
-    return PathSpec.from_lines("gitwildmatch", gitignore_lines)
+    return PathSpec.from_lines("gitwildmatch", gitignore_patterns)
 
 def _is_ignored(path, pathspec_obj, repo_root):
     """
@@ -170,10 +185,13 @@ def _is_ignored(path, pathspec_obj, repo_root):
     If pathspec_obj is None, we return False. Compares the relative path.
     """
     if pathspec_obj is None:
+        print(f"Warning: No .gitignore patterns found for {path}")
         return False
 
     rel_str = str(path.relative_to(repo_root))
-    return pathspec_obj.match_file(rel_str)
+    is_ignored = pathspec_obj.match_file(rel_str)
+    # print(f"Checking path: {rel_str}, Ignored: {is_ignored}")
+    return is_ignored
 
 def _build_tree(
     current_path: Path,
